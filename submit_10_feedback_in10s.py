@@ -31,7 +31,6 @@ def get_captcha():
 获取captcha，创建10个发送线程
 '''
 server = 'https://your server address'
-server = 'https://jui-ce-shop.herokuapp.com'
 dict=get_captcha()
 payload={"captchaId":dict['captchaId'],"captcha":dict['answer'],"comment":"dfd","rating":1}
 print payload
