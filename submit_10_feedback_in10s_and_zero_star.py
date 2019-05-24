@@ -6,7 +6,6 @@ import threading
 '''
 创建thread并在run函数中发送feadback
 '''
-
 class request_thread(threading.Thread):
     def __init__(self,id,server,payload):
         threading.Thread.__init__(self)
@@ -15,7 +14,8 @@ class request_thread(threading.Thread):
         self.server = server
     def run(self):
         print 'Thread No.%d start' %self.id
-        r=requests.post(server+'/api/Feedbacks/',data=payload)
+        headers={'Content-type': 'application/json'}                    #zero star feedback must make payload json
+        r=requests.post(server+'/api/Feedbacks/',headers=headers,data=json.dumps(payload))
         dic=json.loads(r.text)
         print 'Thread No.{} return {}'.format(self.id,dic['status'])
 '''
@@ -32,7 +32,7 @@ def get_captcha():
 '''
 server = 'https://your server address'
 dict=get_captcha()
-payload={"captchaId":dict['captchaId'],"captcha":dict['answer'],"comment":"dfd","rating":1}
+payload={"captchaId":dict['captchaId'],"captcha":dict['answer'],"comment":"dfd","rating":0}
 print payload
 for i in range(0,10):
     request_thread(i,server,payload).start()
